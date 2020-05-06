@@ -89,16 +89,16 @@ function createPipe() {
                 x: distance,
                 y: 0,
                 w: 150,
-                h: length = Math.floor(Math.random() * (-120) + (height / 2 + 30))
+                h: length = Math.floor(Math.random() * (-150) + (height / 2 + 15))
             })
         } else {
             pipe.push({
                 x: distance,
-                y: length += Math.floor(Math.random() * 20 + 60),
+                y: length += Math.floor(Math.random() * 20 + 70),
                 w: 150,
                 h: 251 - length
             });
-            distance = Math.floor(Math.random() * 100 + (distance + 150));
+            distance = Math.floor(Math.random() * 100 + (distance + 130));
         }
     }
 }
@@ -106,7 +106,36 @@ function createPipe() {
 
 
 function draw() {
-    if (moveBird != "stop") {
+    if (moveBird == "stop") {
+        switch (randomBgr) {
+            case 1:
+                context.drawImage(beachImg, 0, 0, 600, 300);
+                break;
+            case 2:
+                context.drawImage(groundImg, 0, 0, 600, 300);
+                break;
+            case 3:
+                context.drawImage(marioImg, 0, 0, 600, 300);
+                break;
+            case 4:
+                context.drawImage(forestImg, 0, 0, 600, 300);
+                break;
+        }
+
+        context.drawImage(messageImg, 47, height / 2 - 80, 130, 150);
+        switch (randomBird) {
+            case 1:
+                context.drawImage(midRedBirdImg, 100, height / 2 + 15, 24, 14);
+                break;
+            case 2:
+                context.drawImage(midBlueBirdImg, 100, height / 2 + 15, 24, 14);
+                break;
+            case 3:
+                context.drawImage(midYellowBirdImg, 100, height / 2 + 15, 24, 14);
+                break;
+        }
+
+    } else {
         // draw ground
         switch (randomBgr) {
             case 1:
@@ -176,35 +205,6 @@ function draw() {
         pipeScore();
         move();
         drawBird();
-    } else {
-        switch (randomBgr) {
-            case 1:
-                context.drawImage(beachImg, 0, 0, 600, 300);
-                break;
-            case 2:
-                context.drawImage(groundImg, 0, 0, 600, 300);
-                break;
-            case 3:
-                context.drawImage(marioImg, 0, 0, 600, 300);
-                break;
-            case 4:
-                context.drawImage(forestImg, 0, 0, 600, 300);
-                break;
-        }
-
-        context.drawImage(messageImg, 47, height / 2 - 80, 130, 150);
-        switch (randomBird) {
-            case 1:
-                context.drawImage(midRedBirdImg, 100, height / 2 + 15, 24, 14);
-                break;
-            case 2:
-                context.drawImage(midBlueBirdImg, 100, height / 2 + 15, 24, 14);
-                break;
-            case 3:
-                context.drawImage(midYellowBirdImg, 100, height / 2 + 15, 24, 14);
-                break;
-        }
-
     }
 }
 
@@ -262,14 +262,14 @@ function death() {
     for (let i = 0; i < pipe.length; i++) {
 
         if (i % 2 == 0) {
-            if (pipe[i].x > 10 && (head.x - pipe[i].x) > 34 && head.y < pipe[i].h + 4) {
+            if (pipe[i].x > 10 && (head.x - pipe[i].x) > 35 && head.y < pipe[i].h + 3) {
                 hitAudio.play();
-                showGameOver();
                 clearInterval(game);
+                showGameOver();
                 return;
             }
         } else {
-            if (pipe[i].x > 10 && (head.x - pipe[i].x) > 34 && head.y > pipe[i].y - 14) {
+            if (pipe[i].x > 10 && (head.x - pipe[i].x) > 35 && head.y > pipe[i].y - 13) {
                 hitAudio.play();
                 showGameOver();
                 clearInterval(game);
@@ -313,10 +313,10 @@ let game = setInterval(() => {
 }, 60);
 
 
-/*get canvas coordiantes
+//get canvas coordiantes
 document.addEventListener("mousemove", (e) => {
     let rect = canvas.getBoundingClientRect();
     let w = (e.clientX - rect.left);
     let h = (e.clientY - rect.top);
-    c  onsole.log(w, h);
-});*/
+    console.log(w, h);
+});
