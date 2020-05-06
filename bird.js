@@ -83,7 +83,7 @@ function createBird() {
 
 function createPipe() {
     pipe = [];
-    let distance = width;
+    let distance = width / 2;
     let length;
     for (let i = 0; i < pipeNum; i++) {
         if (i % 2 == 0) {
