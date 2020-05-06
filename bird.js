@@ -8,8 +8,6 @@ const height = canvas.height;
 // get pipe image
 const pipe_180Img = document.getElementById("pipe_180");
 const pipeImg = document.getElementById("pipe");
-const redPipeImg = document.getElementById("redPipe");
-const redPipe_180Img = document.getElementById("redPipe_180");
 
 // ger background image
 const groundImg = document.getElementById("ground");
@@ -83,7 +81,7 @@ function createBird() {
 
 function createPipe() {
     pipe = [];
-    let distance = width / 2;
+    let distance = width;
     let length;
     for (let i = 0; i < pipeNum; i++) {
         if (i % 2 == 0) {
