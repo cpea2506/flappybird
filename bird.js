@@ -91,7 +91,7 @@ function createPipe() {
                 x: distance,
                 y: 0,
                 w: 150,
-                h: length = Math.floor(Math.random() * (-120) + (height / 2))
+                h: length = Math.floor(Math.random() * (-120) + (height / 2 + 30))
             })
         } else {
             pipe.push({
