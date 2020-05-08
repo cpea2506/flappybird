@@ -1,9 +1,12 @@
-"use strict"
+'use strict';
 
 const canvas = document.getElementById("myCanvas");
 const context = canvas.getContext('2d');
 const width = canvas.width;
 const height = canvas.height;
+
+const restarImg = document.getElementById("restart");
+const scoreImg = document.getElementById("score");
 
 // get pipe image
 const pipe_180Img = document.getElementById("pipe_180");
@@ -11,6 +14,7 @@ const pipeImg = document.getElementById("pipe");
 
 // ger background image
 const groundImg = document.getElementById("ground");
+const cityImg = document.getElementById("city");
 const beachImg = document.getElementById("beach");
 const marioImg = document.getElementById("mario");
 const forestImg = document.getElementById("forest");
@@ -47,6 +51,7 @@ const swooshAudio = document.getElementById("swoosh");
 const wingAudio = document.getElementById("wing");
 const dieAudio = document.getElementById("die");
 const nguAudio = document.getElementById("ngu");
+const themeAudio = document.getElementById("theme");
 
 // object
 let bird;
@@ -58,6 +63,7 @@ let speed;
 let pipeNum;
 let randomBird;
 let randomBgr;
+
 
 function start() {
     speed = 10;
@@ -87,32 +93,41 @@ function createPipe() {
         if (i % 2 == 0) {
             pipe.push({
                 x: distance,
-                y: 0,
-                w: 150,
-                h: length = Math.floor(Math.random() * (-150) + (height / 2 + 15))
+                y: -290,
+                w: 50,
+                h: length = Math.floor(Math.random() * 130 + 310)
             })
         } else {
+            length -= 290;
             pipe.push({
                 x: distance,
-                y: length += Math.floor(Math.random() * 20 + 70),
-                w: 150,
-                h: 251 - length
+                y: length += 70,
+                w: 50,
+                h: height
             });
-            distance = Math.floor(Math.random() * 100 + (distance + 130));
+            distance = Math.floor(Math.random() * 91 + (distance + 126));
         }
     }
 }
 
-
-
 function draw() {
+
+    themeAudio.play();
+    // draw bird
+    head = {
+        x: bird[0].x,
+        y: bird[0].y,
+        w: 30,
+        h: 20
+    };
+
     if (moveBird == "stop") {
         switch (randomBgr) {
             case 1:
                 context.drawImage(beachImg, 0, 0, 600, 300);
                 break;
             case 2:
-                context.drawImage(groundImg, 0, 0, 600, 300);
+                context.drawImage(cityImg, 0, 0, 600, 300);
                 break;
             case 3:
                 context.drawImage(marioImg, 0, 0, 600, 300);
@@ -122,28 +137,30 @@ function draw() {
                 break;
         }
 
-        context.drawImage(messageImg, 47, height / 2 - 80, 130, 150);
+        context.drawImage(messageImg, 47, height / 2 - 80, 138, 159);
         switch (randomBird) {
             case 1:
-                context.drawImage(midRedBirdImg, 100, height / 2 + 15, 24, 14);
+                context.drawImage(midRedBirdImg, 100, height / 2 + 15, head.w, head.h);
                 break;
             case 2:
-                context.drawImage(midBlueBirdImg, 100, height / 2 + 15, 24, 14);
+                context.drawImage(midBlueBirdImg, 100, height / 2 + 15, head.w, head.h);
                 break;
             case 3:
-                context.drawImage(midYellowBirdImg, 100, height / 2 + 15, 24, 14);
+                context.drawImage(midYellowBirdImg, 100, height / 2 + 15, head.w, head.h);
                 break;
         }
 
+        context.drawImage(groundImg, 0, 250, width, 64);
+
     } else {
-        // draw ground
+        // draw background
         switch (randomBgr) {
             case 1:
                 context.drawImage(beachImg, 0, 0, 600, 300);
                 break;
 
             case 2:
-                context.drawImage(groundImg, 0, 0, 600, 300);
+                context.drawImage(cityImg, 0, 0, 600, 300);
                 break;
             case 3:
                 context.drawImage(marioImg, 0, 0, 600, 300);
@@ -163,48 +180,45 @@ function draw() {
             }
         }
 
-        // draw bird
-        head = {
-            x: bird[0].x,
-            y: bird[0].y
-        };
+        // draw the ground to hide the bottom pipe
+        context.drawImage(groundImg, 0, 250, width, 64);
 
         // random color of bird every game
         switch (randomBird) {
             case 1:
                 if (moveBird == "down") {
-                    context.drawImage(downRedBirdImg, head.x, head.y, 24, 14);
+                    context.drawImage(downRedBirdImg, head.x, head.y, head.w, head.h);
                 } else if (moveBird == "up") {
-                    context.drawImage(upRedBirdImg, head.x, head.y, 24, 14);
+                    context.drawImage(upRedBirdImg, head.x, head.y, head.w, head.h);
                 } else {
-                    context.drawImage(midRedBirdImg, head.x, head.y, 24, 14);
+                    context.drawImage(midRedBirdImg, head.x, head.y, head.w, head.h);
                 }
                 break;
             case 2:
                 if (moveBird == "down") {
-                    context.drawImage(downBlueBirdImg, head.x, head.y, 24, 14);
+                    context.drawImage(downBlueBirdImg, head.x, head.y, head.w, head.h);
                 } else if (moveBird == "up") {
-                    context.drawImage(upBlueBirdImg, head.x, head.y, 24, 14);
+                    context.drawImage(upBlueBirdImg, head.x, head.y, head.w, head.h);
                 } else {
-                    context.drawImage(midBlueBirdImg, head.x, head.y, 24, 14);
+                    context.drawImage(midBlueBirdImg, head.x, head.y, head.w, head.h);
                 }
                 break;
             case 3:
                 if (moveBird == "down") {
-                    context.drawImage(downYellowBirdImg, head.x, head.y, 24, 14);
+                    context.drawImage(downYellowBirdImg, head.x, head.y, head.w, head.h);
                 } else if (moveBird == "up") {
-                    context.drawImage(upYellowBirdImg, head.x, head.y, 24, 14);
+                    context.drawImage(upYellowBirdImg, head.x, head.y, head.w, head.h);
                 } else {
-                    context.drawImage(midYellowBirdImg, head.x, head.y, 24, 14);
+                    context.drawImage(midYellowBirdImg, head.x, head.y, head.w, head.h);
                 }
                 break;
         }
 
+        move();
+        drawBird();
         death();
         scoreShow();
         pipeScore();
-        move();
-        drawBird();
     }
 }
 
@@ -234,10 +248,12 @@ window.addEventListener("keyup", (e) => {
 function move() {
     switch (moveBird) {
         case "up":
-            head.y -= speed;
+            head.y -= 8;
+            swooshAudio.play();
             break;
         case "down":
-            head.y += speed;
+            head.y += 7;
+            wingAudio.play();
             break;
     }
 }
@@ -252,25 +268,26 @@ function pipeScore() {
 }
 
 function death() {
-    if (head.y > 230) {
-        moveBird = "stop";
+    if (head.y > 225) {
         hitAudio.play();
+        themeAudio.pause();
         showGameOver();
         clearInterval(game);
         return;
     }
     for (let i = 0; i < pipe.length; i++) {
-
         if (i % 2 == 0) {
-            if (pipe[i].x > 10 && (head.x - pipe[i].x) > 35 && head.y < pipe[i].h + 3) {
+            if (pipe[i].x > 0 && head.x + head.w > pipe[i].x && head.x < pipe[i].x + pipe[i].w - 1 && head.y < pipe[i].y + pipe[i].h - 5) {
                 hitAudio.play();
-                clearInterval(game);
+                themeAudio.pause();
                 showGameOver();
+                clearInterval(game);
                 return;
             }
         } else {
-            if (pipe[i].x > 10 && (head.x - pipe[i].x) > 35 && head.y > pipe[i].y - 13) {
+            if (pipe[i].x > 0 && head.x + head.w > pipe[i].x && head.x < pipe[i].x + pipe[i].w - 1 && head.y + head.h > pipe[i].y + 4) {
                 hitAudio.play();
+                themeAudio.pause();
                 showGameOver();
                 clearInterval(game);
                 return;
@@ -298,7 +315,7 @@ function scoreShow() {
             if (score / 10 >> 0 == i) {
                 context.drawImage(number[i], width / 2 - 15, 0, 14, 24);
             }
-            for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
                 if (score % 10 == i) {
                     context.drawImage(number[i], width / 2, 0, 14, 24);
                 }
@@ -314,9 +331,10 @@ let game = setInterval(() => {
 
 
 //get canvas coordiantes
-document.addEventListener("mousemove", (e) => {
-    let rect = canvas.getBoundingClientRect();
-    let w = (e.clientX - rect.left);
-    let h = (e.clientY - rect.top);
-    console.log(w, h);
-});
+// function getMousePos(canvas, event) {
+//     var rect = canvas.getBoundingClientRect();
+//     return {
+//         x: event.clientX - rect.left,
+//         y: event.clientY - rect.top
+//     };
+// }
