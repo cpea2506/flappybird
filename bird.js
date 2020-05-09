@@ -56,6 +56,7 @@ const themeAudio = document.getElementById("theme");
 // object
 let bird;
 let pipe;
+let ground;
 let head;
 let moveBird;
 let score;
@@ -66,7 +67,7 @@ let randomBgr;
 
 
 function start() {
-    speed = 2.5;
+    speed = 3;
     score = 0;
     moveBird = "stop";
     pipeNum = 2000;
@@ -74,6 +75,7 @@ function start() {
     randomBgr = Math.floor(Math.random() * 4 + 1);
     createPipe();
     createBird();
+    createGround();
 }
 start();
 
@@ -83,6 +85,15 @@ function createBird() {
         x: 100.0,
         y: (height / 2) * 10 * 0.1
     });
+}
+
+function createGround() {
+    ground = {
+        x: -2,
+        y: 250,
+        w: width * 2,
+        h: 64
+    }
 }
 
 function createPipe() {
@@ -150,8 +161,8 @@ function draw() {
                 break;
         }
 
-        context.drawImage(groundImg, 0, 250, width, 64);
-
+        //context.drawImage(groundImg, 0, 250, width, 64);
+        context.drawImage(groundImg, ground.x, ground.y, ground.x + ground.w, ground.h);
     } else {
         // draw background
         switch (randomBgr) {
@@ -181,7 +192,8 @@ function draw() {
         }
 
         // draw the ground to hide the bottom pipe
-        context.drawImage(groundImg, 0, 250, width, 64);
+        context.drawImage(groundImg, ground.x, ground.y, ground.w, ground.h);
+        ground.x = (ground.x - 2) % (width); // move the ground
 
         // random color of bird every game
         switch (randomBird) {
@@ -248,11 +260,11 @@ window.addEventListener("keyup", (e) => {
 function move() {
     switch (moveBird) {
         case "up":
-            head.y -= 3.5;
+            head.y -= 4;
             swooshAudio.play();
             break;
         case "down":
-            head.y += 3.5;
+            head.y += 4;
             wingAudio.play();
             break;
     }
