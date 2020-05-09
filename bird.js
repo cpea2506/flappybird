@@ -80,8 +80,8 @@ start();
 function createBird() {
     bird = [];
     bird.push({
-        x: 100,
-        y: height / 2
+        x: 100.0,
+        y: (height / 2) * 10 * 0.1
     });
 }
 
@@ -248,11 +248,11 @@ window.addEventListener("keyup", (e) => {
 function move() {
     switch (moveBird) {
         case "up":
-            head.y -= 3;
+            head.y -= 3.5;
             swooshAudio.play();
             break;
         case "down":
-            head.y += 2;
+            head.y += 3.5;
             wingAudio.play();
             break;
     }
