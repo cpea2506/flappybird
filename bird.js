@@ -66,7 +66,7 @@ let randomBgr;
 
 
 function start() {
-    speed = 10;
+    speed = 2.5;
     score = 0;
     moveBird = "stop";
     pipeNum = 2000;
@@ -248,11 +248,11 @@ window.addEventListener("keyup", (e) => {
 function move() {
     switch (moveBird) {
         case "up":
-            head.y -= 8;
+            head.y -= 3;
             swooshAudio.play();
             break;
         case "down":
-            head.y += 7;
+            head.y += 2;
             wingAudio.play();
             break;
     }
@@ -260,7 +260,7 @@ function move() {
 
 function pipeScore() {
     for (let i = 0; i < pipe.length; i += 2) {
-        if (pipe[i].x >= 39 && head.x + 24 > pipe[i].x + 75) {
+        if (head.x > pipe[i].x + pipe[i].w && pipe[i].x > 47) {
             score++;
             pointAudio.play();
         }
@@ -268,11 +268,11 @@ function pipeScore() {
 }
 
 function death() {
-    if (head.y > 225) {
+    if (head.y > 234) {
         hitAudio.play();
         themeAudio.pause();
         showGameOver();
-        clearInterval(game);
+        cancelAnimationFrame(request);
         return;
     }
     for (let i = 0; i < pipe.length; i++) {
@@ -281,7 +281,7 @@ function death() {
                 hitAudio.play();
                 themeAudio.pause();
                 showGameOver();
-                clearInterval(game);
+                cancelAnimationFrame(request);
                 return;
             }
         } else {
@@ -289,7 +289,7 @@ function death() {
                 hitAudio.play();
                 themeAudio.pause();
                 showGameOver();
-                clearInterval(game);
+                cancelAnimationFrame(request);
                 return;
             }
         }
@@ -325,9 +325,12 @@ function scoreShow() {
     // this place is for more than 100 score.
 }
 
-let game = setInterval(() => {
+let request
+const performAnimation = () => {
+    request = requestAnimationFrame(performAnimation);
     draw();
-}, 60);
+}
+requestAnimationFrame(performAnimation);
 
 
 //get canvas coordiantes
