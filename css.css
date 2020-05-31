@@ -1,3 +1,9 @@
-img {
-    display: none;
+canvas 
+{
+    border: solid white;
+    margin-left: 600px;
+}
+
+body {
+    background: black;
 }
