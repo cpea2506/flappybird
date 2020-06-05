@@ -54,6 +54,7 @@ let bird = function (game) {
     let img1 = new Image();
     let img2 = new Image();
     let img3 = new Image();
+    let img4 = new Image();
 
     this.currentImage = new Image();
 
@@ -68,6 +69,10 @@ let bird = function (game) {
     img3.onload = function () {
       self.img3Loaded = true;
       console.log("Image3 loaded");
+    };
+    img4.onload = function () {
+      self.img4Loaded = true;
+      console.log("Image4 loaded");
     };
 
     //  random birds
@@ -92,7 +97,9 @@ let bird = function (game) {
         break;
     }
 
-    this.images.push(img1, img2, img3);
+    img4.src = "img/deathBird.png";
+
+    this.images.push(img1, img2, img3, img4);
   };
 
   this.update = function () {
@@ -116,7 +123,7 @@ let bird = function (game) {
         this.birds.y += this.speedY;
       }
       if (this.speedY >= this.jump) {
-        this.rotation = 90 * this.degree;
+        this.rotation = 180 * this.degree;
         if (!this.played[0]) {
           this.audios[0].play();
         }
@@ -214,7 +221,7 @@ let bird = function (game) {
         }
 
         self.game.context.drawImage(
-          self.currentImage,
+          self.images[3],
           this.birds.x,
           (this.toTheHeaven -= 0.5)
         );

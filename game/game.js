@@ -24,6 +24,10 @@ let game = function () {
   let self = this;
 
   this.init = function () {
+
+    // off screen canvas
+
+    // on screen Canvas
     this.canvas = document.createElement("canvas");
     this.context = this.canvas.getContext("2d");
     this.canvas.width = this.width;
@@ -58,7 +62,8 @@ let game = function () {
 
     this.currentState = this.state.ready;
 
-    this.clickEvent();
+    this.clickEvent(); // mouse
+    this.keyDownEvent(); // space 
 
     this.loop();
   };
@@ -91,13 +96,29 @@ let game = function () {
               this.announce.restartBtn.y + this.announce.restartBtn.h
           ) {
             this.canvas.parentNode.removeChild(this.canvas); // remove old canvas
-            this.game = new game();
-            this.game.init();
+            this.g = new game();
+            this.g.init();
           }
         }
       }
     });
   };
+
+  this.keyDownEvent = function() {
+    window.addEventListener("keydown", (evt) => {
+      if (
+        this.currentState == this.state.ready ||
+        this.currentState == this.state.play && evt.keyCode == 32 
+      ) {
+        self.bird.flap();
+      }
+      else if(this.bird.heavenDone && evt.keyCode == 32) {
+        this.canvas.parentNode.removeChild(this.canvas); // remove old canvas
+            this.g = new game();
+            this.g.init();
+      }
+    })
+  }
 
   this.loop = function () {
     requestAnimationFrame(self.loop);
