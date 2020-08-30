@@ -1,73 +1,84 @@
-let pipe = function (game) {
-  this.game = game;
-  this.image = null;
-  this.loaded = false;
+'use strict';
 
-  this.pipes = {
-    x: 500,
-    y: Math.floor(Math.random() * 241 + 120),
-  };
-
-  let self = this;
-
-  this.init = function () {
-    this.loadImage();
-  };
-
-  this.loadImage = function () {
-    this.image = new Image();
-    this.image.onload = function () {
-      self.loaded = true;
-      console.log("pipe loaded");
-    };
-
-    // random pipes
-    switch (this.game.bg.random) {
-      case 0:
-        this.image.src = "img/pipe-green.png";
-        break;
-      case 1:
-        this.image.src = "img/pipe-red.png";
-        break;
-    }
-  };
-
-  this.update = function () {
-    if (this.game.currentState == this.game.state.over) {
-      return;
-    } else if (this.game.currentState == this.game.state.play) {
-      this.pipes.x--;
-      if (this.pipes.x < -52) {
-        this.pipes.x = 288;
-        this.pipes.y = Math.floor(Math.random() * 241 + 120);
-      }
-    }
-  };
-
-  this.draw = function () {
-    if (!self.loaded) {
-      return;
+class Pipe {
+    constructor(game = new Game()) {
+        this.game = game;
+        this.image = null;
+        this.loaded = false;
+        this.pipes = [];
+        this.pipes[0] = {
+            x: 500,
+            y: Math.floor(Math.random() * 241 + 120),
+            w: 52,
+            gap: 85
+        };
     }
 
-    // top pipe
-    self.game.context.drawImage(self.image, self.pipes.x, self.pipes.y);
+    init() {
+        this.loadImage();
+    }
 
-    // bottom pipe
-    self.game.context.save();
+    loadImage() {
+        this.image = new Image();
+        this.image.onload = () => {
+            this.loaded = true;
+        };
 
-    // change coordinate of origin
-    self.game.context.translate(
-      this.game.canvas.width / 2,
-      this.game.canvas.height / 2
-    );
+        // random pipes
+        const randomBg = this.game.bg.random;
+        this.image.src = (randomBg === 0) ? "img/pipe-green.png" : "img/pipe-red.png";
+    }
 
-    self.game.context.rotate(Math.PI); // rotate 180
-    self.game.context.scale(-1, 1); // flip image
-    self.game.context.drawImage(
-      self.image,
-      self.pipes.x - this.game.canvas.width / 2,
-      -this.game.canvas.height / 2 + 512 - self.pipes.y + 85
-    );
-    self.game.context.restore();
-  };
-};
+    update() {
+        const currentState = this.game.currentState;
+        const state = this.game.state
+
+        if (currentState === state.over) {
+            return;
+        } else if (currentState === state.play) {
+            this.pipes.forEach((pipe, i) => {
+                this.pipes[i].x--;
+                if (this.pipes[i].x === 130) {
+                    this.pipes.push({
+                        x: this.game.width,
+                        y: Math.floor(Math.random() * 241 + 120),
+                        w: 52,
+                        gap: 85
+                    });
+                }
+
+                if (this.pipes[i].x + this.pipes[i].w === 5) {
+                    this.pipes.shift();
+                }
+            });
+        }
+    }
+
+    draw() {
+        if (!this.loaded) {
+            return;
+        }
+
+        const context = this.game.context;
+        const width = this.game.width;
+        const height = this.game.height;
+
+        this.pipes.forEach((pipe, i) => {
+            // top pipe
+            context.drawImage(this.image, this.pipes[i].x, this.pipes[i].y);
+
+            // bottom pipe
+            context.save();
+
+            // change coordinate of origin
+            context.translate(width / 2, height / 2);
+
+            context.rotate(Math.PI); // rotate 180
+            context.scale(-1, 1); // flip image
+            context.drawImage(
+                this.image,
+                this.pipes[i].x - width / 2, -height / 2 + 512 - this.pipes[i].y + this.pipes[i].gap);
+            context.restore();
+        });
+    }
+}

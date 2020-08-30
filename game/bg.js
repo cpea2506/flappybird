@@ -1,53 +1,44 @@
-let bg = function (game) {
-  this.game = game;
-  this.image = null;
-  this.loaded = false;
-  this.random = null;
-  this.x = 0;
-  let self = this;
+'use strict';
 
-  this.init = function () {
-    this.random = Math.floor(Math.random() * 2);
-    this.loadImage();
-  };
-
-  this.loadImage = function () {
-    this.image = new Image();
-
-    this.image.onload = function () {
-      self.loaded = true;
-      console.log("Image loaded");
-    };
-
-    switch (this.random) {
-      case 0:
-        // day
-        this.image.src = "img/bg-day.png";
-        break;
-      case 1:
-        // night
-        this.image.src = "img/bg-night.png";
-        break;
-    }
-  };
-
-  this.update = function () {
-    if (this.game.currentState == this.game.state.over) {
-      return;
-    } else if (this.game.currentState == this.game.state.play) {
-      this.x--;
-      if (this.x == -288) {
+class Bg {
+    constructor(game = new Game()) {
+        this.game = game;
+        this.image = this.random = null;
+        this.loaded = false;
         this.x = 0;
-      }
-    }
-  };
-
-  this.draw = function () {
-    if (!self.loaded) {
-      return;
     }
 
-    self.game.context.drawImage(self.image, this.x, 0);
-    self.game.context.drawImage(self.image, this.x + 288, 0);
-  };
-};
+    init() {
+        this.random = Math.floor(Math.random() * 2);
+        this.loadImage();
+    }
+
+    loadImage() {
+        this.image = new Image();
+        this.image.onload = () => {
+            this.loaded = true;
+        };
+        this.image.src = (this.random === 0) ? "img/bg-day.png" : "img/bg-night.png";
+    }
+
+    update() {
+        const currentState = this.game.currentState;
+        const state = this.game.state;
+
+        if (currentState === state.over) {
+            return;
+        } else if (currentState === state.play) {
+            this.x--;
+            (this.x === -288) && (this.x = 0);
+        }
+    }
+
+    draw() {
+        if (!this.loaded) {
+            return;
+        }
+
+        this.game.context.drawImage(this.image, this.x, 0);
+        this.game.context.drawImage(this.image, this.x + 288, 0);
+    }
+}

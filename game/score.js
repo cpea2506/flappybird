@@ -1,50 +1,53 @@
-let score = function (game) {
-  this.game = game;
-  this.point = {
-    value: 0,
-    best: parseInt(localStorage.getItem("best")) || 0, // get item local storage
-  };
+'use strict';
 
-  this.imageIndex = 0;
-  this.audio = null;
+class Score {
+    constructor(game = new Game()) {
+        this.game = game;
+        this.point = {
+            value: 0,
+            best: parseInt(localStorage.getItem("best")) || 0, // get item local storage
+        };
+        this.imageIndex = 0;
+        this.audio = new Audio("audio/score.wav");
 
-  let self = this;
-
-  this.init = function () {
-    this.audio = new Audio("audio/score.wav");
-  };
-
-  this.update = function () {
-    if (
-      this.game.pipe.pipes.x + 52 > this.game.bird.birds.x - 2 &&
-      this.game.bird.birds.x > this.game.pipe.pipes.x + 52
-    ) {
-      this.audio.play();
-      this.point.value++;
-      this.point.best = Math.max(this.point.value, this.point.best);
-      localStorage.setItem("best", this.point.best); // save to local storage
     }
-  };
 
-  this.draw = function () {
-    self.game.context.fillStyle = "#FFF";
-    self.game.context.strokeStyle = "#000";
-    self.game.context.lineWidth = 2;
-    if (this.game.currentState == this.game.state.play) {
-      self.game.context.font = "50px Teko";
+    update() {
+        const pipes = this.game.pipe.pipes;
+        const bird = this.game.bird.birds;
 
-      self.game.context.fillText(this.point.value, this.game.canvas.width / 2 - 15, 50);
-      self.game.context.strokeText(this.point.value, this.game.canvas.width / 2 - 15, 50);
-    } else if (
-      this.game.currentState == this.game.state.over &&
-      this.game.announce.medalDone
-    ) {
-      self.game.context.font = "25px Teko";
-        self.game.context.fillText(this.point.value, 208, 214);
-        self.game.context.strokeText(this.point.value, 208, 214);
+        if (bird.x > pipes[0].x + pipes[0].w &&
+            bird.x < pipes[0].x + pipes[0].w + 2) {
+            this.audio.play();
+            this.point.value++;
+            this.point.best = Math.max(this.point.value, this.point.best);
 
-      self.game.context.fillText(this.point.best, 208, 264);
-      self.game.context.strokeText(this.point.best, 208, 264);
+            // save to local storage
+            localStorage.setItem("best", this.point.best);
+        }
     }
-  };
-};
+
+    draw() {
+        const width = this.game.width;
+        const context = this.game.context;
+        const state = this.game.state;
+        const currentState = this.game.currentState;
+        const medalDone = this.game.announce.medalDone;
+
+        context.fillStyle = "#FFF";
+        context.strokeStyle = "#000";
+        context.lineWidth = 2;
+
+        if (currentState === state.play) {
+            context.font = "50px Teko";
+            context.fillText(this.point.value, width / 2 - 15, 50);
+            context.strokeText(this.point.value, width / 2 - 15, 50);
+        } else if (currentState === state.over && medalDone) {
+            context.font = "25px Teko";
+            context.fillText(this.point.value, 208, 214);
+            context.strokeText(this.point.value, 208, 214);
+            context.fillText(this.point.best, 208, 264);
+            context.strokeText(this.point.best, 208, 264);
+        }
+    }
+}
