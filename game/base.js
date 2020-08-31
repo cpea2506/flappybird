@@ -36,26 +36,26 @@ class Base {
             return;
         }
 
-        const context = this.game.context;
+        const offContext = this.game.offContext;
         const height = this.game.height;
         const bird = this.game.bird.birds;
         const medalDone = this.game.announce.medalDone;
 
-        context.drawImage(this.image, this.x, height - 112);
-        context.drawImage(
+        offContext.drawImage(this.image, this.x, height - 112);
+        offContext.drawImage(
             this.image,
             this.x + 336,
             height - 112
         );
 
         if ((bird.y + bird.h) > 376 && medalDone) {
-            context.fillStyle = "#FFF";
-            context.strokeStyle = "#000";
-            context.font = "35px Teko";
+            offContext.fillStyle = "#FFF";
+            offContext.strokeStyle = "#000";
+            offContext.font = "35px Teko";
 
             const mess = "PAY F TO RESPECT";
-            context.fillText(mess, 25, 480);
-            context.strokeText(mess, 25, 480);
+            offContext.fillText(mess, 25, 480);
+            offContext.strokeText(mess, 25, 480);
         }
     }
 }

@@ -173,21 +173,21 @@ class Bird {
         }
         const currentState = this.game.currentState;
         const state = this.game.state;
-        const context = this.game.context;
+        const offContext = this.game.offContext;
         const medalDone = this.game.announce.medalDone;
 
         if (currentState !== state.over) {
-            context.save();
-            context.translate(this.birds.x + 17, this.birds.y + 12);
-            context.rotate(this.rotation);
-            context.drawImage(this.images[this.imageIndex], -17, -12);
-            context.restore();
+            offContext.save();
+            offContext.translate(this.birds.x + 17, this.birds.y + 12);
+            offContext.rotate(this.rotation);
+            offContext.drawImage(this.images[this.imageIndex], -17, -12);
+            offContext.restore();
         } else {
-            context.save();
-            context.translate(this.birds.x + 17, this.birds.y + 12);
-            context.rotate(this.rotation);
-            context.drawImage(this.images[this.imageIndex], -17, -12);
-            context.restore();
+            offContext.save();
+            offContext.translate(this.birds.x + 17, this.birds.y + 12);
+            offContext.rotate(this.rotation);
+            offContext.drawImage(this.images[this.imageIndex], -17, -12);
+            offContext.restore();
 
             // goodbye bird
             if (this.birds.y + this.birds.h > 375 && medalDone && !this.heavenDone) {
@@ -196,7 +196,7 @@ class Bird {
                     this.played[4] = true;
                 }
 
-                context.drawImage(
+                offContext.drawImage(
                     this.images[3],
                     this.birds.x,
                     (this.toTheHeaven -= 0.75)

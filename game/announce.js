@@ -173,17 +173,17 @@ class Announce {
 
         const currentState = this.game.currentState;
         const state = this.game.state;
-        const context = this.game.context;
+        const offContext = this.game.offContext;
 
         if (currentState === state.ready) {
-            context.drawImage(this.messImg[0], 50, 49);
+            offContext.drawImage(this.messImg[0], 50, 49);
         } else if (currentState === state.over) {
-            context.drawImage(this.messImg[1], this.mess.x, this.mess.y);
-            context.drawImage(this.messImg[2], this.table.x, this.table.y);
+            offContext.drawImage(this.messImg[1], this.mess.x, this.mess.y);
+            offContext.drawImage(this.messImg[2], this.table.x, this.table.y);
 
             // finish drawing table
             (this.tableDone) &&
-            context.drawImage(
+            offContext.drawImage(
                 this.medalImg[this.medalIndex],
                 this.medal.x,
                 this.medal.y,
@@ -194,7 +194,7 @@ class Announce {
 
         // finishing drawing medal
         if (this.game.bird.heavenDone) {
-            context.drawImage(
+            offContext.drawImage(
                 this.messImg[3],
                 this.restartBtn.x,
                 this.restartBtn.y,

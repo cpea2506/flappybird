@@ -29,25 +29,25 @@ class Score {
 
     draw() {
         const width = this.game.width;
-        const context = this.game.context;
+        const offContext = this.game.offContext;
         const state = this.game.state;
         const currentState = this.game.currentState;
         const medalDone = this.game.announce.medalDone;
 
-        context.fillStyle = "#FFF";
-        context.strokeStyle = "#000";
-        context.lineWidth = 2;
+        offContext.fillStyle = "#FFF";
+        offContext.strokeStyle = "#000";
+        offContext.lineWidth = 2;
 
         if (currentState === state.play) {
-            context.font = "50px Teko";
-            context.fillText(this.point.value, width / 2 - 15, 50);
-            context.strokeText(this.point.value, width / 2 - 15, 50);
+            offContext.font = "50px Teko";
+            offContext.fillText(this.point.value, width / 2 - 15, 50);
+            offContext.strokeText(this.point.value, width / 2 - 15, 50);
         } else if (currentState === state.over && medalDone) {
-            context.font = "25px Teko";
-            context.fillText(this.point.value, 208, 214);
-            context.strokeText(this.point.value, 208, 214);
-            context.fillText(this.point.best, 208, 264);
-            context.strokeText(this.point.best, 208, 264);
+            offContext.font = "25px Teko";
+            offContext.fillText(this.point.value, 208, 214);
+            offContext.strokeText(this.point.value, 208, 214);
+            offContext.fillText(this.point.best, 208, 264);
+            offContext.strokeText(this.point.best, 208, 264);
         }
     }
 }

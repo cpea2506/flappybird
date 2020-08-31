@@ -38,7 +38,7 @@ class Bg {
             return;
         }
 
-        this.game.context.drawImage(this.image, this.x, 0);
-        this.game.context.drawImage(this.image, this.x + 288, 0);
+        this.game.offContext.drawImage(this.image, this.x, 0);
+        this.game.offContext.drawImage(this.image, this.x + 288, 0);
     }
 }

@@ -47,7 +47,7 @@ class Pipe {
                     });
                 }
 
-                if (this.pipes[i].x + this.pipes[i].w === 5) {
+                if (this.pipes[i].x + this.pipes[i].w === 0) {
                     this.pipes.shift();
                 }
             });
@@ -59,26 +59,32 @@ class Pipe {
             return;
         }
 
-        const context = this.game.context;
+        const offContext = this.game.offContext;
         const width = this.game.width;
         const height = this.game.height;
+        const currentState = this.game.currentState;
+        const state = this.game.state;
 
         this.pipes.forEach((pipe, i) => {
             // top pipe
-            context.drawImage(this.image, this.pipes[i].x, this.pipes[i].y);
+            offContext.drawImage(this.image, this.pipes[i].x, this.pipes[i].y);
 
             // bottom pipe
-            context.save();
+            offContext.save();
 
             // change coordinate of origin
-            context.translate(width / 2, height / 2);
+            offContext.translate(width / 2, height / 2);
 
-            context.rotate(Math.PI); // rotate 180
-            context.scale(-1, 1); // flip image
-            context.drawImage(
+            offContext.rotate(Math.PI); // rotate 180
+            offContext.scale(-1, 1); // flip image
+            offContext.drawImage(
                 this.image,
                 this.pipes[i].x - width / 2, -height / 2 + 512 - this.pipes[i].y + this.pipes[i].gap);
-            context.restore();
+            offContext.restore();
         });
+
+        if (currentState === state.over) {
+            return;
+        }
     }
 }
