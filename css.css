@@ -7,3 +7,7 @@ canvas {
     margin: 0 auto 0 auto;
     border: 2px solid whitesmoke;
 }
+
+#off-canvas {
+    display: none;
+}

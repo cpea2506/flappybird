@@ -161,31 +161,35 @@ class Game {
     }
 }
 
-const gameFuntion = () => {
-    const fps = 60;
-    const game = new Game();
-    game.init();
-    game.startAnimating(fps);
+const fps = 60;
+let game = new Game();
+game.init();
+game.startAnimating(fps);
 
-    document.addEventListener("click", (e) => {
+document.addEventListener("click", (e) => {
+    game.flapEvent();
+    const mousePos = game.mousePos(game.canvas, e);
+    const restartBtn = game.announce.restartBtn;
+    if (game.bird.heavenDone) {
+        // click restart button
+        if (mousePos.x >= restartBtn.x &&
+            mousePos.x <= (restartBtn.x + restartBtn.w) &&
+            mousePos.y >= restartBtn.y &&
+            mousePos.y <= (restartBtn.y + restartBtn.h)) {
+            game = new Game();
+            game.init();
+            game.startAnimating(fps);
+        }
+    }
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.keyCode === 32) {
         game.flapEvent();
-        const mousePos = game.mousePos(game.canvas, e);
-        const restartBtn = game.announce.restartBtn;
         if (game.bird.heavenDone) {
-            // click restart button
-            if (mousePos.x >= restartBtn.x &&
-                mousePos.x <= (restartBtn.x + restartBtn.w) &&
-                mousePos.y >= restartBtn.y &&
-                mousePos.y <= (restartBtn.y + restartBtn.h)) {
-
-            }
+            game = new Game();
+            game.init();
+            game.startAnimating(fps);
         }
-    });
-
-    document.addEventListener("keydown", (e) => {
-        if (e.keyCode === 32) {
-            game.flapEvent();
-        }
-    });
-}
-gameFuntion();
+    }
+});
