@@ -93,7 +93,7 @@ class Game {
 
     play() {
         //request another frame
-        let requestId = requestAnimationFrame(this.play.bind(this));
+        let requestId = setInterval(this.play.bind(this));
 
         //calculation elapsed time since the last loop
         this.trackingFps.now = Date.now();
@@ -115,7 +115,7 @@ class Game {
         if (this.currentState === this.state.over) {
             this.audio.pause();
             if (this.bird.restartDone) {
-                cancelAnimationFrame(requestId);
+                clearInterval(requestId);
             }
         }
     }
