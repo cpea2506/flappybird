@@ -148,7 +148,7 @@ class Game {
     }
 
     // get mouse's position on canvas
-    mousePos = (canvas, evt) => {
+    mousePos(canvas, evt) {
         let rect = canvas.getBoundingClientRect();
         return {
             x: evt.clientX - rect.left,
