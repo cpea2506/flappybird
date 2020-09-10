@@ -206,6 +206,7 @@ class Bird {
                     this.toTheHeaven = -24;
                     this.heavenDone = true;
                     this.audios[4].pause();
+                    return;
                 }
             }
         }
