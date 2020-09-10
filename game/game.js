@@ -39,7 +39,7 @@ class Game {
     }
 
     reset() {
-       this.offContext.clearRect(0, 0, canvas.width, canvas.height);
+       this.offContext.clearRect(0, 0, this.width, this.height);
     }
 
     init() {
