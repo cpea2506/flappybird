@@ -39,40 +39,7 @@ class Game {
     }
 
     reset() {
-        //canvas stuff 
-        this.offCanvas = document.getElementById("off-canvas");
-        this.offContext = this.offCanvas.getContext("2d");
-        this.canvas = document.getElementById("canvas");
-        this.context = this.canvas.getContext("2d");
-        this.width = this.offCanvas.width;
-        this.height = this.offCanvas.height;
-
-        this.trackingFps = {
-            start: 0,
-            elapsed: 0,
-            now: 0,
-            then: 0,
-            fps: 0,
-            fpsInterval: 0
-        }
-
-        // game object 
-        this.bg = new Bg(this);
-        this.base = new Base(this);
-        this.bird = new Bird(this);
-        this.pipe = new Pipe(this);
-        this.announce = new Announce(this);
-        this.score = new Score(this);
-        this.state = {
-            ready: 0,
-            play: 1,
-            over: 2
-        };
-
-        this.currentState = this.state.ready;
-
-        // audio 
-        this.audio = new Audio("audio/theme.mp3");
+       this.offContext.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     init() {
@@ -176,6 +143,7 @@ document.addEventListener("click", (e) => {
             mousePos.x <= (restartBtn.x + restartBtn.w) &&
             mousePos.y >= restartBtn.y &&
             mousePos.y <= (restartBtn.y + restartBtn.h)) {
+            game.reset();
             game = new Game();
             game.init();
             game.startAnimating(fps);
@@ -187,6 +155,7 @@ document.addEventListener("keydown", (e) => {
     if (e.keyCode === 32) {
         game.flapEvent();
         if (game.bird.heavenDone) {
+            game.reset();
             game = new Game();
             game.init();
             game.startAnimating(fps);
