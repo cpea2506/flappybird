@@ -83,6 +83,7 @@ class Game {
             this.audio.pause();
             if (this.bird.restartDone) {
                 cancelAnimationFrame(requestId);
+                this.reset();
             }
         }
     }
