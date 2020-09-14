@@ -11,12 +11,10 @@ class Game {
         //wrap on-cavas to div element
         this.div = document.getElementById("div-canvas");
         this.canvas = document.createElement("canvas");
-        this.canvas.id = "myCanvas";
         this.canvas.width = 288;
         this.canvas.height = 512;
         this.div.appendChild(this.canvas);
         this.context = this.canvas.getContext("2d");
-
         this.trackingFps = {
             start: 0,
             elapsed: 0,
@@ -28,9 +26,9 @@ class Game {
 
         // game object 
         this.bg = new Bg(this);
+        this.pipe = new Pipe(this);
         this.base = new Base(this);
         this.bird = new Bird(this);
-        this.pipe = new Pipe(this);
         this.announce = new Announce(this);
         this.score = new Score(this);
         this.state = {

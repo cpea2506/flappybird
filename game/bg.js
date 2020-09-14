@@ -18,7 +18,7 @@ class Bg {
         this.image.onload = () => {
             this.loaded = true;
         };
-        this.image.src = (this.random === 0) ? "img/bg-day.png" : "img/bg-night.png";
+        this.image.src = (this.random === 0) ? "img/bg-day.webp" : "img/bg-night.webp";
     }
 
     update() {

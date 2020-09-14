@@ -99,18 +99,18 @@ class Announce {
             this.img9Loaded = true;
         };
 
-        img1.src = "img/message.png";
-        img2.src = "img/game-over.png";
-        img3.src = "img/score.png";
-        img4.src = "img/restart.png";
+        img1.src = "img/message.webp";
+        img2.src = "img/game-over.webp";
+        img3.src = "img/score.webp";
+        img4.src = "img/restart.webp";
         this.messImg.push(img1, img2, img3, img4);
 
         //medal
-        img5.src = "img/ngu-medal.png";
-        img6.src = "img/bronze-medal.png";
-        img7.src = "img/silver-medal.png";
-        img8.src = "img/gold-medal.png";
-        img9.src = "img/platinum-medal.png";
+        img5.src = "img/ngu-medal.webp";
+        img6.src = "img/bronze-medal.webp";
+        img7.src = "img/silver-medal.webp";
+        img8.src = "img/gold-medal.webp";
+        img9.src = "img/platinum-medal.webp";
         this.medalImg.push(img5, img6, img7, img8, img9);
     }
 

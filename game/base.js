@@ -17,7 +17,7 @@ class Base {
         this.image.onload = () => {
             this.loaded = true;
         };
-        this.image.src = "img/base.png";
+        this.image.src = "img/base.webp";
     }
 
     update() {

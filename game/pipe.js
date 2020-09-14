@@ -26,7 +26,7 @@ class Pipe {
 
         // random pipes
         const randomBg = this.game.bg.random;
-        this.image.src = (randomBg === 0) ? "img/pipe-green.png" : "img/pipe-red.png";
+        this.image.src = (randomBg === 0) ? "img/pipe-green.webp" : "img/pipe-red.webp";
     }
 
     update() {

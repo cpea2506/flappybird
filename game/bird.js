@@ -67,10 +67,10 @@ class Bird {
         };
 
         //  random birds
-        img1.src = (this.random === 0) ? "img/yellowbird-midflap.png" : (this.random === 1) ? "img/redbird-midflap.png" : "img/bluebird-midflap.png";
-        img2.src = (this.random === 0) ? "img/yellowbird-downflap.png" : (this.random === 1) ? "img/redbird-downflap.png" : "img/bluebird-downflap.png";
-        img3.src = (this.random === 0) ? "img/yellowbird-upflap.png" : (this.random === 1) ? "img/redbird-upflap.png" : "img/bluebird-upflap.png";
-        img4.src = "img/deathBird.png";
+        img1.src = (this.random === 0) ? "img/yellowbird-midflap.webp" : (this.random === 1) ? "img/redbird-midflap.webp" : "img/bluebird-midflap.webp";
+        img2.src = (this.random === 0) ? "img/yellowbird-downflap.webp" : (this.random === 1) ? "img/redbird-downflap.webp" : "img/bluebird-downflap.webp";
+        img3.src = (this.random === 0) ? "img/yellowbird-upflap.webp" : (this.random === 1) ? "img/redbird-upflap.webp" : "img/bluebird-upflap.webp";
+        img4.src = "img/deathBird.webp";
 
         this.images.push(img1, img2, img3, img4);
     }
