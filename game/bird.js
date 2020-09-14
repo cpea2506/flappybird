@@ -128,11 +128,6 @@ class Bird {
         const currentState = this.game.currentState;
         const state = this.game.state;
 
-        if (currentState === state.over) {
-            return;
-        }
-
-
         if (currentState === state.play) {
             (this.imageIndex === 2) ? this.imageIndex = 0: this.imageIndex++;
         }
@@ -171,6 +166,7 @@ class Bird {
         if (!this.img1Loaded || !this.img2Loaded || !this.img3Loaded) {
             return;
         }
+
         const currentState = this.game.currentState;
         const state = this.game.state;
         const offContext = this.game.offContext;

@@ -97,10 +97,10 @@ class Game {
         // update function
         this.bg.update();
         this.pipe.update();
-        this.base.update();
-        this.bird.update();
-        this.score.update();
         this.announce.update();
+        this.score.update();
+        this.bird.update();
+        this.base.update();
     }
 
     draw() {
