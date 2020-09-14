@@ -33,9 +33,7 @@ class Pipe {
         const currentState = this.game.currentState;
         const state = this.game.state
 
-        if (currentState === state.over) {
-            return;
-        } else if (currentState === state.play) {
+        if (currentState === state.play) {
             this.pipes.forEach((pipe, i) => {
                 this.pipes[i].x--;
                 if (this.pipes[i].x === 130) {
@@ -82,9 +80,5 @@ class Pipe {
                 this.pipes[i].x - width / 2, -height / 2 + 512 - this.pipes[i].y + this.pipes[i].gap);
             offContext.restore();
         });
-
-        if (currentState === state.over) {
-            return;
-        }
     }
 }

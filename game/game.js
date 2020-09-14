@@ -5,10 +5,17 @@ class Game {
         //canvas stuff 
         this.offCanvas = document.getElementById("off-canvas");
         this.offContext = this.offCanvas.getContext("2d");
-        this.canvas = document.getElementById("canvas");
-        this.context = this.canvas.getContext("2d");
         this.width = this.offCanvas.width;
         this.height = this.offCanvas.height;
+
+        //wrap on-cavas to div element
+        this.div = document.getElementById("div-canvas");
+        this.canvas = document.createElement("canvas");
+        this.canvas.id = "myCanvas";
+        this.canvas.width = 288;
+        this.canvas.height = 512;
+        this.div.appendChild(this.canvas);
+        this.context = this.canvas.getContext("2d");
 
         this.trackingFps = {
             start: 0,
@@ -38,10 +45,6 @@ class Game {
         this.audio = new Audio("audio/theme.mp3");
     }
 
-    reset() {
-       this.offContext.clearRect(0, 0, this.width, this.height);
-    }
-
     init() {
         this.bg.init();
         this.base.init();
@@ -60,7 +63,7 @@ class Game {
 
     play() {
         //request another frame
-        let requestId = requestAnimationFrame(this.play.bind(this));
+        const requestId = requestAnimationFrame(this.play.bind(this));
 
         //calculation elapsed time since the last loop
         this.trackingFps.now = Date.now();
@@ -83,7 +86,6 @@ class Game {
             this.audio.pause();
             if (this.bird.restartDone) {
                 cancelAnimationFrame(requestId);
-                this.reset();
             }
         }
     }
@@ -117,7 +119,7 @@ class Game {
 
     // get mouse's position on canvas
     mousePos(canvas, evt) {
-        const rect = canvas.getBoundingClientRect();
+        let rect = canvas.getBoundingClientRect();
         return {
             x: evt.clientX - rect.left,
             y: evt.clientY - rect.top,
@@ -129,37 +131,39 @@ class Game {
     }
 }
 
-const fps = 60;
-let game = new Game();
-game.init();
-game.startAnimating(fps);
+window.onload = () => {
+    const fps = 60;
+    let game = new Game();
+    game.init();
+    game.startAnimating(fps);
 
-document.addEventListener("click", (e) => {
-    game.flapEvent();
-    const mousePos = game.mousePos(game.canvas, e);
-    const restartBtn = game.announce.restartBtn;
-    if (game.bird.heavenDone) {
-        // click restart button
-        if (mousePos.x >= restartBtn.x &&
-            mousePos.x <= (restartBtn.x + restartBtn.w) &&
-            mousePos.y >= restartBtn.y &&
-            mousePos.y <= (restartBtn.y + restartBtn.h)) {
-            game.reset();
-            game = new Game();
-            game.init();
-            game.startAnimating(fps);
-        }
-    }
-});
-
-document.addEventListener("keydown", (e) => {
-    if (e.keyCode === 32) {
+    document.addEventListener("click", (e) => {
         game.flapEvent();
+        const mousePos = game.mousePos(game.canvas, e);
+        const restartBtn = game.announce.restartBtn;
         if (game.bird.heavenDone) {
-            game.reset();
-            game = new Game();
-            game.init();
-            game.startAnimating(fps);
+            // click restart button
+            if (mousePos.x >= restartBtn.x &&
+                mousePos.x <= (restartBtn.x + restartBtn.w) &&
+                mousePos.y >= restartBtn.y &&
+                mousePos.y <= (restartBtn.y + restartBtn.h)) {
+                game.div.removeChild(game.canvas);
+                game = new Game();
+                game.init();
+                game.startAnimating(fps);
+            }
         }
-    }
-});
+    });
+
+    document.addEventListener("keyup", (e) => {
+        if (e.key === " ") {
+            game.flapEvent();
+            if (game.bird.heavenDone) {
+                game.div.removeChild(game.canvas);
+                game = new Game();
+                game.init();
+                game.startAnimating(fps);
+            }
+        }
+    });
+}
