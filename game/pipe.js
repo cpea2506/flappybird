@@ -1,1 +1,81 @@
-'use strict';class Pipe{constructor(b=new Game){this.game=b,this.pipeImg=this.random=null,this.pipes=[],this.pipes[0]={x:500,y:Math.floor(241*Math.random()+120),w:52,gap:85}}init(){this.random=Math.floor(2*Math.random()),this.loadImage()}loadImage(){switch(this.pipeImg=new Image,this.random){case 0:this.pipeImg.src="img/pipe-green.webp";break;case 1:this.pipeImg.src="img/pipe-red.webp";}}update(){const c=this.game.currentState,a=this.game.state;c===a.play&&this.pipes.forEach(b=>{b.x--,130===b.x&&this.pipes.push({x:this.game.width,y:Math.floor(241*Math.random()+120),w:52,gap:85}),5===b.x+b.w&&this.pipes.shift()})}draw(){const e=this.game.offContext,a=this.game.width,b=this.game.height;this.pipes.forEach(c=>{e.drawImage(this.pipeImg,c.x,c.y),e.save(),e.translate(a/2,b/2),e.rotate(Math.PI),e.scale(-1,1),e.drawImage(this.pipeImg,c.x-a/2,-b/2+512-c.y+c.gap),e.restore()})}}
+'use strict';
+
+class Pipe {
+    constructor(game = new Game()) {
+        this.game = game;
+        this.pipeImg = this.random = null;
+        this.pipes = [];
+        this.pipes[0] = {
+            x: 500,
+            y: Math.floor(Math.random() * 241 + 120),
+            w: 52,
+            gap: 85
+        };
+    }
+
+    init() {
+        this.random = Math.floor(Math.random() * 2);
+        this.loadImage();
+    }
+
+    loadImage() {
+        this.pipeImg = new Image();
+
+        // random pipes
+        switch (this.random) {
+            case 0:
+                this.pipeImg.src = "img/pipe-green.webp";
+                break;
+            case 1:
+                this.pipeImg.src = "img/pipe-red.webp";
+                break;
+        }
+    }
+
+    update() {
+        const currentState = this.game.currentState;
+        const state = this.game.state
+
+        if (currentState === state.play) {
+            this.pipes.forEach((pipe) => {
+                pipe.x--;
+                if (pipe.x === 130) {
+                    this.pipes.push({
+                        x: this.game.width,
+                        y: Math.floor(Math.random() * 241 + 120),
+                        w: 52,
+                        gap: 85
+                    });
+                }
+
+                if (pipe.x + pipe.w === 0) {
+                    this.pipes.shift();
+                }
+            });
+        }
+    }
+
+    draw() {
+        const offContext = this.game.offContext;
+        const width = this.game.width;
+        const height = this.game.height;
+
+        this.pipes.forEach((pipe) => {
+            // top pipe
+            offContext.drawImage(this.pipeImg, pipe.x, pipe.y);
+
+            // bottom pipe
+            offContext.save();
+
+            // change coordinate of origin
+            offContext.translate(width / 2, height / 2);
+
+            offContext.rotate(Math.PI); // rotate 180
+            offContext.scale(-1, 1); // flip image
+            offContext.drawImage(
+                this.pipeImg,
+                pipe.x - width / 2, -height / 2 + 512 - pipe.y + pipe.gap);
+            offContext.restore();
+        });
+    }
+}

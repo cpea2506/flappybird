@@ -1,1 +1,13 @@
-body{background:#000}canvas{display:block;margin:0 auto 0 auto;border:2px solid #f5f5f5}#off-canvas{display:none}
+body {
+    background: #000;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto 0 auto;
+    border: 2px solid #f5f5f5;
+}
+
+#off-canvas {
+    display: none;
+}
